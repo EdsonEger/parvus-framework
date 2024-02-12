@@ -5,7 +5,7 @@
 
     class Mail
     {
-        private $mailer, $aConfig, $html;
+        private $mailer, $aConfig, $html, $optOut;
         private $withLog = false;
 
         /**
@@ -198,6 +198,15 @@
         }
 
         /**
+         * Define the opt out link
+         * @param $prOptOut
+         */
+        public final function optOut ($prOptOut)
+        {
+            $this->optOut = $prOptOut;
+        }
+
+        /**
          * Define show log, not sending the mail
          */
         public final function withLog ()
@@ -259,6 +268,7 @@
             /** Add default param */
             $this->aConfig['view-array']['subject'] = $this->mailer->Subject;
             $this->aConfig['view-array']['html']    = $this->html;
+            $this->aConfig['view-array']['optout']  = $this->optOut;
 
             /** Generate the HTML with Blade */
             $this->mailer->Body = $view->render ($this->aConfig['view'],$this->aConfig['view-array']);
